@@ -1,19 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Brick : MonoBehaviour
 {
-    public Sprite[] states = new Sprite[0];
-    public int points = 100;
-    public bool unbreakable;
+    public SpriteRenderer spriteRenderer { get; private set; }
 
-    private SpriteRenderer spriteRenderer;
-    private int health;
+    public int health { get; private set; }
+    public int points;
+    public bool unbreakable;
 
     private void Awake()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        this.spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void Start()
@@ -23,35 +20,26 @@ public class Brick : MonoBehaviour
 
     public void ResetBrick()
     {
-        gameObject.SetActive(true);
-
-        if (!unbreakable)
-        {
-            health = states.Length;
-            spriteRenderer.sprite = states[health - 1];
-        }
+        this.gameObject.SetActive(true);
     }
 
     private void Hit()
     {
-        if (unbreakable)
+        if (this.unbreakable)
         {
             return;
         }
 
-        health--;
+        this.health--;
 
-        if (health <= 0)
+        if (this.health <= 0)
         {
-            gameObject.SetActive(false);
-        }
-        else
-        {
-            spriteRenderer.sprite = states[health - 1];
+            this.gameObject.SetActive(false);
         }
 
-        GameManager.Instance.OnBrickHit(this);
+        FindObjectOfType<GameManager>().Hit(this);
     }
+
 
     private void OnCollisionEnter2D(Collision2D collision)
     {

@@ -2,12 +2,12 @@
 
 public class Ball : MonoBehaviour
 {
-    private Rigidbody2D rb;
-    public float speed = 10f;
+    public new Rigidbody2D rigidbody { get; private set; }
+    public float speed;
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
+        this.rigidbody = GetComponent<Rigidbody2D>();
     }
 
     private void Start()
@@ -15,12 +15,16 @@ public class Ball : MonoBehaviour
         ResetBall();
     }
 
+    private void FixedUpdate()
+    {
+        this.rigidbody.velocity = this.rigidbody.velocity.normalized * speed;
+    }
+
     public void ResetBall()
     {
-        rb.velocity = Vector2.zero;
-        transform.position = Vector2.zero;
+        this.transform.position = Vector2.zero;
+        this.rigidbody.velocity = Vector2.zero;
 
-        CancelInvoke();
         Invoke(nameof(SetRandomTrajectory), 1f);
     }
 
@@ -30,12 +34,6 @@ public class Ball : MonoBehaviour
         force.x = Random.Range(-1f, 1f);
         force.y = -1f;
 
-        rb.AddForce(force.normalized * speed, ForceMode2D.Impulse);
+        this.rigidbody.AddForce(force.normalized * this.speed);
     }
-
-    private void FixedUpdate()
-    {
-        rb.velocity = rb.velocity.normalized * speed;
-    }
-
 }

@@ -2,9 +2,12 @@
 
 public class ResetZone : MonoBehaviour
 {
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        GameManager.Instance.OnBallMiss();
+        if (collision.gameObject.name == "Ball")
+        {
+            FindObjectOfType<GameManager>().Restart();
+        }
     }
-
 }
+
