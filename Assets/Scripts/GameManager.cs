@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    private static GameManager instance;
     public Ball ball { get; private set; }
     public Paddle paddle { get; private set; }
     public Brick[] bricks { get; private set; }
@@ -15,6 +16,15 @@ public class GameManager : MonoBehaviour
     {
         DontDestroyOnLoad(gameObject);
 
+        if(instance != null)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
+
         SceneManager.sceneLoaded += OnLevelLoaded;
     }
 
@@ -23,6 +33,11 @@ public class GameManager : MonoBehaviour
         NewGame();
     }
 
+    private void Update()
+    {
+        Win();
+    }
+  
     private void NewGame()
     {
         this.score = 0;
@@ -50,24 +65,26 @@ public class GameManager : MonoBehaviour
     {
         this.ball.ResetBall();
         this.paddle.ResetPaddle();
-        
+        /*
         for(int i = 0; i < this.bricks.Length; i++)
         {
             this.bricks[i].ResetBrick();
         }
+        */
     }
 
     public void GameOver()
     {
-        //SceneManager.LoadScene("GameOver");
+        SceneManager.LoadScene("GameOver");
 
         Debug.Log(" Game Over! I'll give you another chance ");
-        NewGame();
+        //NewGame();
     }
 
     public void Restart()
     {
         this.lives--;
+        Debug.Log("Lives: " + this.lives);
 
         if (this.lives > 0)
         {
@@ -83,23 +100,26 @@ public class GameManager : MonoBehaviour
     {
         this.score += brick.points;
 
-        Debug.Log(score);
+        Debug.Log("Score: " + this.score);
         
-        if (Cleared())
+    }
+
+    public bool Win()
+    {
+        if (score >= 210)
         {
             SceneManager.LoadScene("Winner");
+            return true;
         }
-        
-    }
-    private bool Cleared()
-    {
-        for(int i = 0; i< this.bricks.Length; i++)
+        else
         {
-            if (this.bricks[i].gameObject.activeInHierarchy && !this.bricks[i].unbreakable)
-            {
-                return false;
-            }
+            return false;
         }
-        return true;
     }
+    /*
+    public void AddLives(int amount)
+    {
+        lives += amount;
+    }
+    */
 }

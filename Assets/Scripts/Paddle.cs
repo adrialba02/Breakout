@@ -2,6 +2,7 @@
 
 public class Paddle : MonoBehaviour
 {
+    public GameManager gm;
     public new Rigidbody2D rigidbody { get; private set; }
     public Vector2 direction { get; private set; }
 
@@ -28,6 +29,8 @@ public class Paddle : MonoBehaviour
         } else {
             this.direction = Vector2.zero;
         }
+
+        Function();
     }
 
     private void FixedUpdate()
@@ -41,7 +44,7 @@ public class Paddle : MonoBehaviour
     {
         Ball ball = collision.gameObject.GetComponent<Ball>();
 
-        if(ball != null)
+        if (ball != null)
         {
             Vector3 paddlePosition = this.transform.position;
             Vector2 contactPoint = collision.GetContact(0).point;
@@ -58,4 +61,13 @@ public class Paddle : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        gm.lives++;
+        Destroy(other.gameObject);
+    }
+
+    private void Function(){
+        this.gm = FindAnyObjectByType<GameManager>();
+    }
 }

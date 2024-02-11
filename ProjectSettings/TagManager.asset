@@ -7,6 +7,8 @@ TagManager:
   - Blue
   - Red
   - Green
+  - Brick
+  - Ball
   layers:
   - Default
   - TransparentFX
