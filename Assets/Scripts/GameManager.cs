@@ -106,7 +106,7 @@ public class GameManager : MonoBehaviour
 
     public bool Win()
     {
-        if (score >= 210)
+        if (score == 210)
         {
             SceneManager.LoadScene("Winner");
             return true;
@@ -116,10 +116,4 @@ public class GameManager : MonoBehaviour
             return false;
         }
     }
-    /*
-    public void AddLives(int amount)
-    {
-        lives += amount;
-    }
-    */
 }

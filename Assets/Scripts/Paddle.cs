@@ -63,9 +63,14 @@ public class Paddle : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (other.gameObject.CompareTag("Green"))
+        {
+            gm.lives += 2;
+        }
         gm.lives++;
         Destroy(other.gameObject);
     }
+
 
     private void Function(){
         this.gm = FindAnyObjectByType<GameManager>();

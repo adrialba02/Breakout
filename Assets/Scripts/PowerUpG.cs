@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PowerUpG : MonoBehaviour
@@ -17,12 +18,11 @@ public class PowerUpG : MonoBehaviour
             float angleIncrement = 15f;
             SpawnBallAtAngle(p.transform.position, angleIncrement * -1);
             SpawnBallAtAngle(p.transform.position, 0); 
-            SpawnBallAtAngle(p.transform.position, angleIncrement); 
-  
+            SpawnBallAtAngle(p.transform.position, angleIncrement);
         }
     }
 
-    private void SpawnBallAtAngle(Vector3 spawnPosition, float angle)
+    private void SpawnBallAtAngle(Vector2 spawnPosition, float angle)
     {
         Vector2 direction = Quaternion.Euler(0, 0, angle) * Vector2.up;
         GameObject ball = Instantiate(Ball, spawnPosition, Quaternion.identity);
